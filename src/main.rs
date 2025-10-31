@@ -244,10 +244,15 @@ impl Character {
     }
 
     fn hit_dice(&self) -> Dice {
-        let (die_size, modifier) = match self.class{
+        let (die_size, modifier) = match self.class {
             Class::Barbarian => (12, self.constitution_modifier()),
             Class::Fighter | Class::Paladin | Class::Ranger => (10, self.constitution_modifier()),
-            Class::Bard | Class::Cleric | Class::Druid | Class::Monk | Class::Rogue | Class::Warlock => (8, self.constitution_modifier()),
+            Class::Bard
+            | Class::Cleric
+            | Class::Druid
+            | Class::Monk
+            | Class::Rogue
+            | Class::Warlock => (8, self.constitution_modifier()),
             Class::Sorcerer | Class::Wizard => (6, self.constitution_modifier()),
         };
 
