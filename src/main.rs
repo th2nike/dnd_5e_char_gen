@@ -1,6 +1,19 @@
 use rand::Rng;
 use std::fmt;
 
+trait Describable {
+    fn description(&self) -> String;
+
+    fn short_description(&self) -> String {
+        let desc = self.description();
+        if desc.len() > 50 {
+            format!("{}. . . ", &desc[..50])
+        } else {
+            desc
+        }
+    }
+}
+
 struct Character {
     strength: u8,
     dexterity: u8,
@@ -136,6 +149,41 @@ impl Character {
     fn count_str_skills(&self) -> usize {
         self.proficient_skills.iter().filter(|skill| skill.ability_type()== "STR").count()
     }
+
+    fn display_with_descriptions(&self) {
+        println!("╔════════════════════════════════════╗");
+        println!("║     CHARACTER SHEET                ║");
+        println!("╠════════════════════════════════════╣");
+        println!("║ Race: {:?}", self.race);
+        println!("║ {}", self.race.short_description());
+        println!("║");
+        println!("║ Class: {:?}", self.class);
+        println!("║ {}", self.class.short_description());
+        println!("║");
+        println!("║ Hit Points: {}", self.hit_points);
+        println!("║ Armor Class: {}", self.armor_class());
+        println!("║ Initiative: {:+}", self.initiative());
+        println!("╠════════════════════════════════════╣");
+        println!("║ ABILITY SCORES                     ║");
+        println!("╠════════════════════════════════════╣");
+        println!("║ STR: {:2} ({:+2})                      ║", self.strength, self.strength_modifier());
+        println!("║ DEX: {:2} ({:+2})                      ║", self.dexterity, self.dexterity_modifier());
+        println!("║ CON: {:2} ({:+2})                      ║", self.constitution, self.constitution_modifier());
+        println!("║ INT: {:2} ({:+2})                      ║", self.intelligence, self.intelligence_modifier());
+        println!("║ WIS: {:2} ({:+2})                      ║", self.wisdom, self.wisdom_modifier());
+        println!("║ CHA: {:2} ({:+2})                      ║", self.charisma, self.charisma_modifier());
+        println!("╚════════════════════════════════════╝");
+    }
+}
+
+impl fmt::Display for Character{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+        write!(f, "{} the {} {}",
+                    "Character",
+                    format!("{:?}", self.race).to_lowercase(),
+                    format!("{:?}", self.class).to_lowercase()
+        )
+    }
 }
 
 #[derive(Debug)]
@@ -149,6 +197,58 @@ enum Race {
     HalfElf,
     HalfOrc,
     Tiefling,
+}
+
+impl Describable for Race {
+    fn description(&self) -> String {
+        match self {
+            Race::Human => {
+                "Humans are the most adaptable and ambitious people. \
+                 They have widely varying tastes, morals, and customs."
+                    .to_string()
+            }
+            Race::Elf => {
+                "Elves are a magical people of otherworldly grace, living in the world \
+                 but not entirely part of it. They live in places of ethereal beauty."
+                    .to_string()
+            }
+            Race::Dwarf => {
+                "Bold and hardy, dwarves are known as skilled warriors, miners, and \
+                 workers of stone and metal. They stand between 4 and 5 feet tall."
+                    .to_string()
+            }
+            Race::Halfling => {
+                "The diminutive halflings survive in a world full of larger creatures \
+                 by avoiding notice or, barring that, avoiding offense."
+                    .to_string()
+            }
+            Race::Dragonborn => {
+                "Born of dragons, as their name proclaims, dragonborn walk proudly \
+                 through a world that greets them with fearful incomprehension."
+                    .to_string()
+            }
+            Race::Gnome => {
+                "A gnome's energy and enthusiasm for living shines through every inch \
+                 of their tiny body. They average 3 to 4 feet tall and weigh 40 pounds."
+                    .to_string()
+            }
+            Race::HalfElf => {
+                "Half-elves combine what some say are the best qualities of their elf \
+                 and human parents: human curiosity and ambition tempered by elven senses."
+                    .to_string()
+            }
+            Race::HalfOrc => {
+                "Whether united under the leadership of a mighty warlock or fighting \
+                 for survival, half-orcs are a force to be reckoned with."
+                    .to_string()
+            }
+            Race::Tiefling => {
+                "To be greeted with stares and whispers, to suffer violence and insult \
+                 on the street - this is the lot of the tiefling."
+                    .to_string()
+            }
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -165,6 +265,73 @@ enum Class {
     Sorcerer,
     Warlock,
     Wizard,
+}
+
+impl Describable for Class {
+    fn description(&self) -> String {
+        match self {
+            Class::Barbarian => {
+                "A fierce warrior of primitive background who can enter a battle rage. \
+                 Unparalleled in strength and durability."
+                    .to_string()
+            }
+            Class::Bard => {
+                "An inspiring musician and storyteller whose performances can inspire \
+                 allies and demoralize foes through magic."
+                    .to_string()
+            }
+            Class::Cleric => {
+                "A priestly champion who wields divine magic in service of a higher power. \
+                 Versatile healers and supporters."
+                    .to_string()
+            }
+            Class::Druid => {
+                "A priest of the Old Faith, wielding the powers of nature and adopting \
+                 animal forms. Masters of wilderness survival."
+                    .to_string()
+            }
+            Class::Fighter => {
+                "A master of martial combat, skilled with a variety of weapons and armor. \
+                 The most versatile combatant."
+                    .to_string()
+            }
+            Class::Monk => {
+                "A master of martial arts, harnessing the power of the body in pursuit \
+                 of physical and spiritual perfection."
+                    .to_string()
+            }
+            Class::Paladin => {
+                "A holy warrior bound to a sacred oath. Combines martial prowess with \
+                 divine magic to smite evil."
+                    .to_string()
+            }
+            Class::Ranger => {
+                "A warrior who uses martial prowess and nature magic to combat threats \
+                 on the edges of civilization."
+                    .to_string()
+            }
+            Class::Rogue => {
+                "A scoundrel who uses stealth and trickery to overcome obstacles and enemies. \
+                 Master of skills and precision strikes."
+                    .to_string()
+            }
+            Class::Sorcerer => {
+                "A spellcaster who draws on inherent magic from a gift or bloodline. \
+                 Magic flows naturally through them."
+                    .to_string()
+            }
+            Class::Warlock => {
+                "A wielder of magic derived from a bargain with an extraplanar entity. \
+                 Eldritch power with a mysterious patron."
+                    .to_string()
+            }
+            Class::Wizard => {
+                "A scholarly magic-user capable of manipulating reality through careful \
+                 study. Masters of arcane lore."
+                    .to_string()
+            }
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -491,6 +658,14 @@ fn validate_ability_score_improved(score: u8, ability_name: &str) -> Result<u8, 
             ability: ability_name.to_string(),
         })
     }
+}
+
+fn print_description<T: Describable>(item: &T){
+    println!("{}", item.description());
+}
+
+fn print_short_description(item: &impl Describable) {
+    println!("{}", item.short_description());
 }
 
 fn main() {
