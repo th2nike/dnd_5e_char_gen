@@ -14,6 +14,12 @@ trait Describable {
     }
 }
 
+trait Rollable {
+    fn roll(&self) -> u32;
+
+    fn roll_description(&self) -> String;
+}
+
 struct Character {
     strength: u8,
     dexterity: u8,
@@ -32,27 +38,27 @@ impl Character {
     fn ability_modifier(score: u8) -> i8 {
         ((score as i8) - 10) / 2
     }
-    
+
     fn strength_modifier(&self) -> i8 {
         Self::ability_modifier(self.strength)
     }
-    
+
     fn dexterity_modifier(&self) -> i8 {
         Self::ability_modifier(self.dexterity)
     }
-    
+
     fn constitution_modifier(&self) -> i8 {
         Self::ability_modifier(self.constitution)
     }
-    
+
     fn intelligence_modifier(&self) -> i8 {
         Self::ability_modifier(self.intelligence)
     }
-    
+
     fn wisdom_modifier(&self) -> i8 {
         Self::ability_modifier(self.wisdom)
     }
-    
+
     fn charisma_modifier(&self) -> i8 {
         Self::ability_modifier(self.charisma)
     }
@@ -71,10 +77,9 @@ impl Character {
 
     fn skill_bonus(&self, skill: Skill) -> i8 {
         let ability_mod = skill.get_ability_modifier(self);
-        if self.proficient_skills.contains(&skill){
+        if self.proficient_skills.contains(&skill) {
             ability_mod + self.proficiency_bonus()
-        }
-        else {
+        } else {
             ability_mod
         }
     }
@@ -91,12 +96,36 @@ impl Character {
         println!("╠════════════════════════════════════╣");
         println!("║ ABILITY SCORES                     ║");
         println!("╠════════════════════════════════════╣");
-        println!("║ STR: {:2} ({:+2})                     ", self.strength, self.strength_modifier());
-        println!("║ DEX: {:2} ({:+2})                     ", self.dexterity, self.dexterity_modifier());
-        println!("║ CON: {:2} ({:+2})                     ", self.constitution, self.constitution_modifier());
-        println!("║ INT: {:2} ({:+2})                     ", self.intelligence, self.intelligence_modifier());
-        println!("║ WIS: {:2} ({:+2})                     ", self.wisdom, self.wisdom_modifier());
-        println!("║ CHA: {:2} ({:+2})                     ", self.charisma, self.charisma_modifier());
+        println!(
+            "║ STR: {:2} ({:+2})                     ",
+            self.strength,
+            self.strength_modifier()
+        );
+        println!(
+            "║ DEX: {:2} ({:+2})                     ",
+            self.dexterity,
+            self.dexterity_modifier()
+        );
+        println!(
+            "║ CON: {:2} ({:+2})                     ",
+            self.constitution,
+            self.constitution_modifier()
+        );
+        println!(
+            "║ INT: {:2} ({:+2})                     ",
+            self.intelligence,
+            self.intelligence_modifier()
+        );
+        println!(
+            "║ WIS: {:2} ({:+2})                     ",
+            self.wisdom,
+            self.wisdom_modifier()
+        );
+        println!(
+            "║ CHA: {:2} ({:+2})                     ",
+            self.charisma,
+            self.charisma_modifier()
+        );
         println!("╚════════════════════════════════════╝");
 
         self.display_skills();
@@ -108,17 +137,29 @@ impl Character {
         println!("\n╔════════════════════════════════════╗");
         println!("║ SKILLS                             ║");
         println!("╠════════════════════════════════════╣");
-        
+
         // We'll iterate through all possible skills
         let all_skills = [
-            Skill::Acrobatics, Skill::AnimalHandling, Skill::Arcana,
-            Skill::Athletics, Skill::Deception, Skill::History,
-            Skill::Insight, Skill::Intimidation, Skill::Investigation,
-            Skill::Medicine, Skill::Nature, Skill::Perception,
-            Skill::Performance, Skill::Persuasion, Skill::Religion,
-            Skill::SleightOfHand, Skill::Stealth, Skill::Survival,
+            Skill::Acrobatics,
+            Skill::AnimalHandling,
+            Skill::Arcana,
+            Skill::Athletics,
+            Skill::Deception,
+            Skill::History,
+            Skill::Insight,
+            Skill::Intimidation,
+            Skill::Investigation,
+            Skill::Medicine,
+            Skill::Nature,
+            Skill::Perception,
+            Skill::Performance,
+            Skill::Persuasion,
+            Skill::Religion,
+            Skill::SleightOfHand,
+            Skill::Stealth,
+            Skill::Survival,
         ];
-        
+
         for skill in all_skills.iter() {
             let bonus = self.skill_bonus(*skill);
             let proficient = if self.proficient_skills.contains(skill) {
@@ -128,26 +169,29 @@ impl Character {
             };
             println!("║ {}{:?}: {:+}", proficient, skill, bonus);
         }
-        
+
         println!("╠════════════════════════════════════╣");
         println!("║ * = Proficient                     ║");
         println!("╚════════════════════════════════════╝");
     }
 
-        fn display_equipment(&self) {
+    fn display_equipment(&self) {
         println!("\n╔════════════════════════════════════╗");
         println!("║ EQUIPMENT                          ║");
         println!("╠════════════════════════════════════╣");
-        
+
         for item in &self.equipment {
             println!("║ • {}", item);
         }
-        
+
         println!("╚════════════════════════════════════╝");
     }
 
     fn count_str_skills(&self) -> usize {
-        self.proficient_skills.iter().filter(|skill| skill.ability_type()== "STR").count()
+        self.proficient_skills
+            .iter()
+            .filter(|skill| skill.ability_type() == "STR")
+            .count()
     }
 
     fn display_with_descriptions(&self) {
@@ -166,22 +210,65 @@ impl Character {
         println!("╠════════════════════════════════════╣");
         println!("║ ABILITY SCORES                     ║");
         println!("╠════════════════════════════════════╣");
-        println!("║ STR: {:2} ({:+2})                      ║", self.strength, self.strength_modifier());
-        println!("║ DEX: {:2} ({:+2})                      ║", self.dexterity, self.dexterity_modifier());
-        println!("║ CON: {:2} ({:+2})                      ║", self.constitution, self.constitution_modifier());
-        println!("║ INT: {:2} ({:+2})                      ║", self.intelligence, self.intelligence_modifier());
-        println!("║ WIS: {:2} ({:+2})                      ║", self.wisdom, self.wisdom_modifier());
-        println!("║ CHA: {:2} ({:+2})                      ║", self.charisma, self.charisma_modifier());
+        println!(
+            "║ STR: {:2} ({:+2})                      ║",
+            self.strength,
+            self.strength_modifier()
+        );
+        println!(
+            "║ DEX: {:2} ({:+2})                      ║",
+            self.dexterity,
+            self.dexterity_modifier()
+        );
+        println!(
+            "║ CON: {:2} ({:+2})                      ║",
+            self.constitution,
+            self.constitution_modifier()
+        );
+        println!(
+            "║ INT: {:2} ({:+2})                      ║",
+            self.intelligence,
+            self.intelligence_modifier()
+        );
+        println!(
+            "║ WIS: {:2} ({:+2})                      ║",
+            self.wisdom,
+            self.wisdom_modifier()
+        );
+        println!(
+            "║ CHA: {:2} ({:+2})                      ║",
+            self.charisma,
+            self.charisma_modifier()
+        );
         println!("╚════════════════════════════════════╝");
+    }
+
+    fn hit_dice(&self) -> Dice {
+        let (die_size, modifier) = match self.class{
+            Class::Barbarian => (12, self.constitution_modifier()),
+            Class::Fighter | Class::Paladin | Class::Ranger => (10, self.constitution_modifier()),
+            Class::Bard | Class::Cleric | Class::Druid | Class::Monk | Class::Rogue | Class::Warlock => (8, self.constitution_modifier()),
+            Class::Sorcerer | Class::Wizard => (6, self.constitution_modifier()),
+        };
+
+        Dice::new(1, die_size as u32, modifier as i32)
+    }
+
+    fn roll_hit_points(&self) -> u32 {
+        let dice = self.hit_dice();
+        println!("Rolling {} for hit points...", dice.roll_description());
+        dice.roll()
     }
 }
 
-impl fmt::Display for Character{
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
-        write!(f, "{} the {} {}",
-                    "Character",
-                    format!("{:?}", self.race).to_lowercase(),
-                    format!("{:?}", self.class).to_lowercase()
+impl fmt::Display for Character {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{} the {} {}",
+            "Character",
+            format!("{:?}", self.race).to_lowercase(),
+            format!("{:?}", self.class).to_lowercase()
         )
     }
 }
@@ -202,21 +289,15 @@ enum Race {
 impl Describable for Race {
     fn description(&self) -> String {
         match self {
-            Race::Human => {
-                "Humans are the most adaptable and ambitious people. \
+            Race::Human => "Humans are the most adaptable and ambitious people. \
                  They have widely varying tastes, morals, and customs."
-                    .to_string()
-            }
-            Race::Elf => {
-                "Elves are a magical people of otherworldly grace, living in the world \
+                .to_string(),
+            Race::Elf => "Elves are a magical people of otherworldly grace, living in the world \
                  but not entirely part of it. They live in places of ethereal beauty."
-                    .to_string()
-            }
-            Race::Dwarf => {
-                "Bold and hardy, dwarves are known as skilled warriors, miners, and \
+                .to_string(),
+            Race::Dwarf => "Bold and hardy, dwarves are known as skilled warriors, miners, and \
                  workers of stone and metal. They stand between 4 and 5 feet tall."
-                    .to_string()
-            }
+                .to_string(),
             Race::Halfling => {
                 "The diminutive halflings survive in a world full of larger creatures \
                  by avoiding notice or, barring that, avoiding offense."
@@ -227,21 +308,17 @@ impl Describable for Race {
                  through a world that greets them with fearful incomprehension."
                     .to_string()
             }
-            Race::Gnome => {
-                "A gnome's energy and enthusiasm for living shines through every inch \
+            Race::Gnome => "A gnome's energy and enthusiasm for living shines through every inch \
                  of their tiny body. They average 3 to 4 feet tall and weigh 40 pounds."
-                    .to_string()
-            }
+                .to_string(),
             Race::HalfElf => {
                 "Half-elves combine what some say are the best qualities of their elf \
                  and human parents: human curiosity and ambition tempered by elven senses."
                     .to_string()
             }
-            Race::HalfOrc => {
-                "Whether united under the leadership of a mighty warlock or fighting \
+            Race::HalfOrc => "Whether united under the leadership of a mighty warlock or fighting \
                  for survival, half-orcs are a force to be reckoned with."
-                    .to_string()
-            }
+                .to_string(),
             Race::Tiefling => {
                 "To be greeted with stares and whispers, to suffer violence and insult \
                  on the street - this is the lot of the tiefling."
@@ -275,11 +352,9 @@ impl Describable for Class {
                  Unparalleled in strength and durability."
                     .to_string()
             }
-            Class::Bard => {
-                "An inspiring musician and storyteller whose performances can inspire \
+            Class::Bard => "An inspiring musician and storyteller whose performances can inspire \
                  allies and demoralize foes through magic."
-                    .to_string()
-            }
+                .to_string(),
             Class::Cleric => {
                 "A priestly champion who wields divine magic in service of a higher power. \
                  Versatile healers and supporters."
@@ -295,11 +370,9 @@ impl Describable for Class {
                  The most versatile combatant."
                     .to_string()
             }
-            Class::Monk => {
-                "A master of martial arts, harnessing the power of the body in pursuit \
+            Class::Monk => "A master of martial arts, harnessing the power of the body in pursuit \
                  of physical and spiritual perfection."
-                    .to_string()
-            }
+                .to_string(),
             Class::Paladin => {
                 "A holy warrior bound to a sacred oath. Combines martial prowess with \
                  divine magic to smite evil."
@@ -336,7 +409,7 @@ impl Describable for Class {
 
 #[derive(Debug)]
 enum CharacterError {
-    InvalidAbilityScore {score: u8, ability: String},
+    InvalidAbilityScore { score: u8, ability: String },
     InvalidRace,
     InvalidClass,
     MissingRequiredField(String),
@@ -346,7 +419,11 @@ impl fmt::Display for CharacterError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             CharacterError::InvalidAbilityScore { score, ability } => {
-                write!(f, "Invalid {} score: {}. Must be between 3 and 18.", ability, score)
+                write!(
+                    f,
+                    "Invalid {} score: {}. Must be between 3 and 18.",
+                    ability, score
+                )
             }
             CharacterError::InvalidRace => {
                 write!(f, "Invalid race selection")
@@ -388,24 +465,85 @@ enum Skill {
     Persuasion,
 }
 
-impl Skill{
+impl Skill {
     fn ability_type(&self) -> &str {
         match self {
             Skill::Athletics => "STR",
             Skill::Acrobatics | Skill::SleightOfHand | Skill::Stealth => "DEX",
-            Skill::Arcana | Skill::History | Skill::Investigation | Skill::Nature | Skill::Religion => "INT",
-            Skill::AnimalHandling | Skill::Insight | Skill::Medicine | Skill::Perception | Skill::Survival => "WIS",
-            Skill::Deception | Skill::Intimidation | Skill::Performance | Skill::Persuasion => "CHA",
+            Skill::Arcana
+            | Skill::History
+            | Skill::Investigation
+            | Skill::Nature
+            | Skill::Religion => "INT",
+            Skill::AnimalHandling
+            | Skill::Insight
+            | Skill::Medicine
+            | Skill::Perception
+            | Skill::Survival => "WIS",
+            Skill::Deception | Skill::Intimidation | Skill::Performance | Skill::Persuasion => {
+                "CHA"
+            }
         }
     }
 
     fn get_ability_modifier(&self, character: &Character) -> i8 {
         match self {
             Skill::Athletics => character.strength_modifier(),
-            Skill::Acrobatics | Skill::SleightOfHand | Skill::Stealth => character.dexterity_modifier(),
-            Skill::Arcana | Skill::History | Skill::Investigation | Skill::Nature | Skill::Religion => character.intelligence_modifier(),
-            Skill::AnimalHandling | Skill::Insight | Skill::Medicine | Skill::Perception | Skill::Survival => character.wisdom_modifier(),
-            Skill::Deception | Skill::Intimidation | Skill::Performance | Skill::Persuasion => character.charisma_modifier(),
+            Skill::Acrobatics | Skill::SleightOfHand | Skill::Stealth => {
+                character.dexterity_modifier()
+            }
+            Skill::Arcana
+            | Skill::History
+            | Skill::Investigation
+            | Skill::Nature
+            | Skill::Religion => character.intelligence_modifier(),
+            Skill::AnimalHandling
+            | Skill::Insight
+            | Skill::Medicine
+            | Skill::Perception
+            | Skill::Survival => character.wisdom_modifier(),
+            Skill::Deception | Skill::Intimidation | Skill::Performance | Skill::Persuasion => {
+                character.charisma_modifier()
+            }
+        }
+    }
+}
+
+struct Dice {
+    num_dice: u32,
+    die_size: u32,
+    modifier: i32,
+}
+
+impl Dice {
+    fn new(num_dice: u32, die_size: u32, modifier: i32) -> Self {
+        Dice {
+            num_dice,
+            die_size,
+            modifier,
+        }
+    }
+}
+
+impl Rollable for Dice {
+    fn roll(&self) -> u32 {
+        let mut rng = rand::thread_rng();
+        let mut total = 0;
+
+        for _ in 0..self.num_dice {
+            total += rng.gen_range(1..=self.die_size);
+        }
+
+        ((total as i32) + self.modifier).max(1) as u32
+    }
+
+    fn roll_description(&self) -> String {
+        if self.modifier == 0 {
+            format!("{}d{}", self.num_dice, self.die_size)
+        } else if self.modifier > 0 {
+            format!("{}d{}+{}", self.num_dice, self.die_size, self.modifier)
+        } else {
+            format!("{}d{}{}", self.num_dice, self.die_size, self.modifier)
         }
     }
 }
@@ -414,15 +552,15 @@ fn roll_3d6() -> u8 {
     let mut rng = rand::thread_rng();
     let mut total = 0;
 
-    for _ in 0..3{
+    for _ in 0..3 {
         total += rng.gen_range(1..=6);
     }
 
     total
 }
 
-fn apply_racial_bonuses(character: &mut Character){
-    match &character.race{
+fn apply_racial_bonuses(character: &mut Character) {
+    match &character.race {
         Race::Human => {
             character.strength += 1;
             character.dexterity += 1;
@@ -464,30 +602,35 @@ fn apply_racial_bonuses(character: &mut Character){
 }
 
 fn summarize_character(character: &Character) -> String {
-        format!(
-            "A {} {} with {} strength and {} dexterity",
-            // We can use the Debug trait with {:?} to print enums
-            format!("{:?}", character.race).to_lowercase(),
-            format!("{:?}", character.class).to_lowercase(),
-            character.strength,
-            character.dexterity
-        )
+    format!(
+        "A {} {} with {} strength and {} dexterity",
+        // We can use the Debug trait with {:?} to print enums
+        format!("{:?}", character.race).to_lowercase(),
+        format!("{:?}", character.class).to_lowercase(),
+        character.strength,
+        character.dexterity
+    )
 }
 
 fn calculate_starting_hp(character: &Character) -> u32 {
     let base_hp = match &character.class {
         Class::Barbarian => 12,
         Class::Fighter | Class::Paladin | Class::Ranger => 10,
-        Class::Bard | Class::Cleric | Class::Druid | Class::Monk | Class::Rogue | Class::Warlock => 8,
+        Class::Bard
+        | Class::Cleric
+        | Class::Druid
+        | Class::Monk
+        | Class::Rogue
+        | Class::Warlock => 8,
         Class::Sorcerer | Class::Wizard => 6,
     };
-    
+
     let con_mod = character.constitution_modifier();
     (base_hp as i8 + con_mod).max(1) as u32
 }
 
-fn create_character (race: Race, class: Class) -> Character{
-    let mut character = Character{
+fn create_character(race: Race, class: Class) -> Character {
+    let mut character = Character {
         strength: roll_3d6(),
         dexterity: roll_3d6(),
         constitution: roll_3d6(),
@@ -561,7 +704,7 @@ fn create_character_with_scores_improved(
     validate_ability_score_improved(intelligence, "Intelligence")?;
     validate_ability_score_improved(wisdom, "Wisdom")?;
     validate_ability_score_improved(charisma, "Charisma")?;
-    
+
     let mut character = Character {
         strength,
         dexterity,
@@ -575,10 +718,10 @@ fn create_character_with_scores_improved(
         proficient_skills: get_class_skills(&class),
         equipment: get_starting_equipment(&class),
     };
-    
+
     apply_racial_bonuses(&mut character);
     character.hit_points = calculate_starting_hp(&character);
-    
+
     Ok(character)
 }
 
@@ -592,7 +735,12 @@ fn get_class_skills(class: &Class) -> Vec<Skill> {
         Class::Monk => vec![Skill::Acrobatics, Skill::Stealth],
         Class::Paladin => vec![Skill::Intimidation, Skill::Religion],
         Class::Ranger => vec![Skill::Survival, Skill::Perception],
-        Class::Rogue => vec![Skill::Stealth, Skill::SleightOfHand, Skill::Deception, Skill::Perception],
+        Class::Rogue => vec![
+            Skill::Stealth,
+            Skill::SleightOfHand,
+            Skill::Deception,
+            Skill::Perception,
+        ],
         Class::Sorcerer => vec![Skill::Persuasion, Skill::Intimidation],
         Class::Warlock => vec![Skill::Deception, Skill::Intimidation],
         Class::Wizard => vec![Skill::Arcana, Skill::History],
@@ -660,7 +808,7 @@ fn validate_ability_score_improved(score: u8, ability_name: &str) -> Result<u8, 
     }
 }
 
-fn print_description<T: Describable>(item: &T){
+fn print_description<T: Describable>(item: &T) {
     println!("{}", item.description());
 }
 
@@ -674,7 +822,12 @@ fn main() {
     match create_character_with_scores_improved(
         Race::Elf,
         Class::Wizard,
-        8, 16, 12, 15, 13, 10  // All valid scores
+        8,
+        16,
+        12,
+        15,
+        13,
+        10, // All valid scores
     ) {
         Ok(character) => {
             println!("Successfully created character!");
@@ -684,13 +837,18 @@ fn main() {
             println!("Failed to create character: {}", error);
         }
     }
-    
+
     println!("\n=== Invalid Character ===");
     // This should fail - strength is too low
     match create_character_with_scores_improved(
         Race::Dwarf,
         Class::Fighter,
-        2, 14, 16, 10, 12, 8  // 2 is invalid!
+        2,
+        14,
+        16,
+        10,
+        12,
+        8, // 2 is invalid!
     ) {
         Ok(character) => {
             println!("Successfully created character!");
