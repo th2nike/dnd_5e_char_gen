@@ -1,9 +1,13 @@
-use crate::{dice::Dice, equipment::{ArmorType, WeaponType}, skill::Skill};
+use crate::{
+    dice::Dice,
+    equipment::{ArmorType, WeaponType},
+    skill::Skill,
+};
+use serde::{Deserialize, Serialize};
 use std::fmt::{self, Formatter};
-use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum Class{
+pub enum Class {
     Barbarian,
     Bard,
     Cleric,
@@ -19,39 +23,86 @@ pub enum Class{
 }
 
 impl Class {
-
-    pub fn get_class_armor_proficiency(&self) -> Vec<ArmorType>{
-        match self{
-            Class::Barbarian => {vec![ArmorType::Light, ArmorType::Medium]},
-            Class::Bard => {vec![ArmorType::Light]},
-            Class::Cleric => {vec![ArmorType::Light, ArmorType::Medium]},
-            Class::Druid => {vec![ArmorType::Light, ArmorType::Medium]},
-            Class::Fighter => {vec![ArmorType::Light, ArmorType::Medium, ArmorType::Heavy]},
-            Class::Monk => {vec![]},
-            Class::Paladin => {vec![ArmorType::Light, ArmorType::Medium, ArmorType::Heavy]},
-            Class::Ranger => {vec![ArmorType::Light, ArmorType::Medium]},
-            Class::Rogue => {vec![ArmorType::Light]},
-            Class::Sorcerer => {vec![]},
-            Class::Warlock => {vec![ArmorType::Light]},
-            Class::Wizard => {vec![]},
+    pub fn get_class_armor_proficiency(&self) -> Vec<ArmorType> {
+        match self {
+            Class::Barbarian => {
+                vec![ArmorType::Light, ArmorType::Medium]
+            }
+            Class::Bard => {
+                vec![ArmorType::Light]
+            }
+            Class::Cleric => {
+                vec![ArmorType::Light, ArmorType::Medium]
+            }
+            Class::Druid => {
+                vec![ArmorType::Light, ArmorType::Medium]
+            }
+            Class::Fighter => {
+                vec![ArmorType::Light, ArmorType::Medium, ArmorType::Heavy]
+            }
+            Class::Monk => {
+                vec![]
+            }
+            Class::Paladin => {
+                vec![ArmorType::Light, ArmorType::Medium, ArmorType::Heavy]
+            }
+            Class::Ranger => {
+                vec![ArmorType::Light, ArmorType::Medium]
+            }
+            Class::Rogue => {
+                vec![ArmorType::Light]
+            }
+            Class::Sorcerer => {
+                vec![]
+            }
+            Class::Warlock => {
+                vec![ArmorType::Light]
+            }
+            Class::Wizard => {
+                vec![]
+            }
         }
     }
 
-    pub fn get_weapon_proficieny(&self) -> Vec<WeaponType>{
-        match self{
+    pub fn get_weapon_proficieny(&self) -> Vec<WeaponType> {
+        match self {
             //for some classes the granularity of weapon proficiency is much detailed, but ...
-            Class::Barbarian => {vec![WeaponType::Simple, WeaponType::Martial]},
-            Class::Bard => {vec![WeaponType::Simple]},
-            Class::Cleric => {vec![WeaponType::Simple]},
-            Class::Druid => {vec![WeaponType::Simple]},
-            Class::Fighter => {vec![WeaponType::Simple, WeaponType::Martial]},
-            Class::Monk => {vec![WeaponType::Simple]},
-            Class::Paladin => {vec![WeaponType::Simple, WeaponType::Martial]},
-            Class::Ranger => {vec![WeaponType::Simple, WeaponType::Martial]},
-            Class::Rogue => {vec![WeaponType::Simple]},
-            Class::Sorcerer => {vec![WeaponType::Simple]},
-            Class::Warlock => {vec![WeaponType::Simple]},
-            Class::Wizard => {vec![WeaponType::Simple]},
+            Class::Barbarian => {
+                vec![WeaponType::Simple, WeaponType::Martial]
+            }
+            Class::Bard => {
+                vec![WeaponType::Simple]
+            }
+            Class::Cleric => {
+                vec![WeaponType::Simple]
+            }
+            Class::Druid => {
+                vec![WeaponType::Simple]
+            }
+            Class::Fighter => {
+                vec![WeaponType::Simple, WeaponType::Martial]
+            }
+            Class::Monk => {
+                vec![WeaponType::Simple]
+            }
+            Class::Paladin => {
+                vec![WeaponType::Simple, WeaponType::Martial]
+            }
+            Class::Ranger => {
+                vec![WeaponType::Simple, WeaponType::Martial]
+            }
+            Class::Rogue => {
+                vec![WeaponType::Simple]
+            }
+            Class::Sorcerer => {
+                vec![WeaponType::Simple]
+            }
+            Class::Warlock => {
+                vec![WeaponType::Simple]
+            }
+            Class::Wizard => {
+                vec![WeaponType::Simple]
+            }
         }
     }
 
@@ -74,20 +125,20 @@ impl Class {
         }
     }
 
-    pub fn get_class_hit_dice(&self) -> Dice{
-        match self{
-            Class::Barbarian => Dice::new(1,12,0),
-            Class::Bard => Dice::new(1,8,0),
-            Class::Cleric => Dice::new(1,8,0),
-            Class::Druid => Dice::new(1,8,0),
-            Class::Fighter => Dice::new(1,10,0),
-            Class::Monk => Dice::new(1,8,0),
-            Class::Paladin => Dice::new(1,10,0),
-            Class::Ranger => Dice::new(1,10,0),
-            Class::Rogue => Dice::new(1,8,0),
-            Class::Sorcerer => Dice::new(1,6,0),
-            Class::Warlock => Dice::new(1,8,0),
-            Class::Wizard => Dice::new(1,6,0),
+    pub fn get_class_hit_dice(&self) -> Dice {
+        match self {
+            Class::Barbarian => Dice::new(1, 12, 0),
+            Class::Bard => Dice::new(1, 8, 0),
+            Class::Cleric => Dice::new(1, 8, 0),
+            Class::Druid => Dice::new(1, 8, 0),
+            Class::Fighter => Dice::new(1, 10, 0),
+            Class::Monk => Dice::new(1, 8, 0),
+            Class::Paladin => Dice::new(1, 10, 0),
+            Class::Ranger => Dice::new(1, 10, 0),
+            Class::Rogue => Dice::new(1, 8, 0),
+            Class::Sorcerer => Dice::new(1, 6, 0),
+            Class::Warlock => Dice::new(1, 8, 0),
+            Class::Wizard => Dice::new(1, 6, 0),
         }
     }
 }

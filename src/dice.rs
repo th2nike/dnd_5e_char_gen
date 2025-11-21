@@ -30,16 +30,13 @@ impl Dice {
         total.max(1) as u8
     }
 
-    pub fn roll_for_ability() -> u8{
-        let mut rolls: Vec<u8> = vec![];
-        for i in 0..=3 {
-            let dice = Dice::new(1,6, 0);
-            let dice = dice.roll();
-            rolls.push(dice);
+    pub fn roll_for_ability() -> u8 {
+        let mut rolls: [u8; 4] = [0; 4];
+        for i in 0..4 {
+            rolls[i] = Dice::new(1, 6, 0).roll();
         }
         rolls.sort();
-        let result = rolls[1] + rolls[2] + rolls[3];
-        result
+        rolls[1..].iter().sum()
     }
 
     pub fn parse_dice_roll(dice_roll: String) -> u8 {
@@ -98,8 +95,8 @@ impl Dice {
     }
 }
 
-impl Default for Dice{
-    fn default() -> Self{
+impl Default for Dice {
+    fn default() -> Self {
         Dice::new(1, 6, 0)
     }
 }

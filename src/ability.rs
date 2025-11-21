@@ -1,5 +1,5 @@
+use serde::{Deserialize, Serialize};
 use std::fmt::{self, Formatter};
-use serde::{Serialize, Deserialize};
 use std::str::FromStr;
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
@@ -26,16 +26,16 @@ impl fmt::Display for Abilities {
     }
 }
 
-impl Abilities{
-    pub fn abbr_to_ability(abbr: &str) -> Option<Self>{
-        match abbr.to_uppercase().as_str(){
+impl Abilities {
+    pub fn abbr_to_ability(abbr: &str) -> Option<Self> {
+        match abbr.to_uppercase().as_str() {
             "STR" => Some(Abilities::Strength),
             "DEX" => Some(Abilities::Dexterity),
             "CON" => Some(Abilities::Constitution),
             "INT" => Some(Abilities::Intelligence),
             "WIS" => Some(Abilities::Wisdom),
             "CHA" => Some(Abilities::Charisma),
-            _ => None
+            _ => None,
         }
     }
 }
@@ -51,7 +51,7 @@ impl FromStr for Abilities {
 use crate::dice::Dice;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-pub struct AbilityScores{
+pub struct AbilityScores {
     strength: u8,
     dexterity: u8,
     constitution: u8,
@@ -60,14 +60,15 @@ pub struct AbilityScores{
     charisma: u8,
 }
 
-impl AbilityScores{
-    pub fn new() -> Self{
-        Self { strength: Dice::roll_for_ability(), 
-                dexterity: Dice::roll_for_ability(), 
-                constitution: Dice::roll_for_ability(), 
-                intelligence: Dice::roll_for_ability(), 
-                wisdom: Dice::roll_for_ability(), 
-                charisma: Dice::roll_for_ability()
+impl AbilityScores {
+    pub fn new() -> Self {
+        Self {
+            strength: Dice::roll_for_ability(),
+            dexterity: Dice::roll_for_ability(),
+            constitution: Dice::roll_for_ability(),
+            intelligence: Dice::roll_for_ability(),
+            wisdom: Dice::roll_for_ability(),
+            charisma: Dice::roll_for_ability(),
         }
     }
 
@@ -91,9 +92,9 @@ impl AbilityScores{
             Abilities::Wisdom => self.wisdom = value,
             Abilities::Charisma => self.charisma = value,
         }
-    } 
+    }
 
-    pub fn get_ability_modifier(&self, ability: Abilities) -> i8{
+    pub fn get_ability_modifier(&self, ability: Abilities) -> i8 {
         ((self.get(ability) as i8) - 10) / 2
     }
 
@@ -104,16 +105,46 @@ impl AbilityScores{
     }
 }
 
-impl fmt::Display for AbilityScores{
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result{
-        writeln!(f, "ABILITIES")?;
-        writeln!(f, "  ─────────────")?;
-        writeln!(f, "💪 STR: {:>3} | ({:+2})", self.get(Abilities::Strength), self.get_ability_modifier(Abilities::Strength));
-        writeln!(f, "🏃 DEX: {:>3} | ({:+2})", self.get(Abilities::Dexterity), self.get_ability_modifier(Abilities::Dexterity));
-        writeln!(f, "❤️  CON: {:>3} | ({:+2})", self.get(Abilities::Constitution), self.get_ability_modifier(Abilities::Constitution));
-        writeln!(f, "🧠 INT: {:>3} | ({:+2})", self.get(Abilities::Intelligence), self.get_ability_modifier(Abilities::Intelligence));
-        writeln!(f, "🦉 WIS: {:>3} | ({:+2})", self.get(Abilities::Wisdom), self.get_ability_modifier(Abilities::Wisdom));
-        writeln!(f, "✨ CHA: {:>3} | ({:+2})", self.get(Abilities::Charisma), self.get_ability_modifier(Abilities::Charisma));
+impl fmt::Display for AbilityScores {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        writeln!(f, "🤹 ABILITIES")?;
+        writeln!(f, "────────────────────")?;
+        writeln!(
+            f,
+            "💪 STR: {:>3} | ({:+2})",
+            self.get(Abilities::Strength),
+            self.get_ability_modifier(Abilities::Strength)
+        );
+        writeln!(
+            f,
+            "🏃 DEX: {:>3} | ({:+2})",
+            self.get(Abilities::Dexterity),
+            self.get_ability_modifier(Abilities::Dexterity)
+        );
+        writeln!(
+            f,
+            "❤️  CON: {:>3} | ({:+2})",
+            self.get(Abilities::Constitution),
+            self.get_ability_modifier(Abilities::Constitution)
+        );
+        writeln!(
+            f,
+            "🧠 INT: {:>3} | ({:+2})",
+            self.get(Abilities::Intelligence),
+            self.get_ability_modifier(Abilities::Intelligence)
+        );
+        writeln!(
+            f,
+            "🦉 WIS: {:>3} | ({:+2})",
+            self.get(Abilities::Wisdom),
+            self.get_ability_modifier(Abilities::Wisdom)
+        );
+        writeln!(
+            f,
+            "✨ CHA: {:>3} | ({:+2})",
+            self.get(Abilities::Charisma),
+            self.get_ability_modifier(Abilities::Charisma)
+        );
         writeln!(f, "")
     }
 }

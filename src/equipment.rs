@@ -1,16 +1,16 @@
 use std::fmt::{self, Formatter};
 
-use crate::{character::Character, class::Class};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
+use strum_macros::{self, Display};
 
-use std::{io, fs};
 use std::collections::HashMap;
+use std::{fs, io};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Weapon {
     pub name: String,
     pub weapon_type: WeaponType,
-    pub weapon_range: WeaponRange, 
+    pub weapon_range: WeaponRange,
     pub damage: String,
     pub damage_type: DamageType,
     pub weight: f32,
@@ -24,15 +24,15 @@ pub enum WeaponType {
     Martial,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum WeaponRange{
+#[derive(Debug, Clone, Serialize, Deserialize, Display)]
+pub enum WeaponRange {
     Melee,
     Ranged,
 }
 
-impl fmt::Display for WeaponType{
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result{
-        match self{
+impl fmt::Display for WeaponType {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match self {
             WeaponType::Simple => write!(f, "Simple"),
             WeaponType::Martial => write!(f, "Martial"),
         }
@@ -47,7 +47,7 @@ pub enum DamageType {
 }
 
 #[derive(Debug, Deserialize)]
-struct WeaponDatabase{
+struct WeaponDatabase {
     weapon: Vec<Weapon>,
 }
 
@@ -80,9 +80,9 @@ pub enum ArmorType {
     Heavy,
 }
 
-impl fmt::Display for ArmorType{
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result{
-        match self{
+impl fmt::Display for ArmorType {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match self {
             ArmorType::Light => write!(f, "Light"),
             ArmorType::Medium => write!(f, "Medium"),
             ArmorType::Heavy => write!(f, "Heavy"),
@@ -91,16 +91,15 @@ impl fmt::Display for ArmorType{
 }
 
 #[derive(Debug, Deserialize)]
-struct ArmorDatabase{
+struct ArmorDatabase {
     armor: Vec<Armor>,
 }
 
-
 ///IMPL Section
-impl Armor{
+impl Armor {
     pub fn load_armor_database() -> Result<HashMap<String, Armor>, io::Error> {
         let toml_content = fs::read_to_string("data/armor.toml")?;
-        
+
         let database: ArmorDatabase = toml::from_str(&toml_content)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
 
@@ -109,23 +108,19 @@ impl Armor{
             .into_iter()
             .map(|armor| (armor.name.clone(), armor))
             .collect();
-        
+
         Ok(armor_map)
     }
 
     pub fn get_armor(key: &str) -> Option<Armor> {
-        Armor::load_armor_database()
-            .ok()?
-            .get(key)
-            .cloned()
+        Armor::load_armor_database().ok()?.get(key).cloned()
     }
 }
 
-
-impl Weapon{
+impl Weapon {
     pub fn load_weapon_database() -> Result<HashMap<String, Weapon>, io::Error> {
         let toml_content = fs::read_to_string("data/weapon.toml")?;
-        
+
         let database: WeaponDatabase = toml::from_str(&toml_content)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
 
@@ -134,14 +129,18 @@ impl Weapon{
             .into_iter()
             .map(|weapon| (weapon.name.clone(), weapon))
             .collect();
-        
+
         Ok(weapon_map)
     }
 
     pub fn get_weapon(key: &str) -> Option<Weapon> {
-        Weapon::load_weapon_database()
-            .ok()?
-            .get(key)
-            .cloned()
+        Weapon::load_weapon_database().ok()?.get(key).cloned()
+    }
+}
+
+impl fmt::Display for Weapon {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        writeln!(f, "────────────────────");
+        write!(f, "Weapon: {}", self.name)
     }
 }
