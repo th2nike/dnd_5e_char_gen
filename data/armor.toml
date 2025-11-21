@@ -1,0 +1,107 @@
+# Light Armor - Full DEX bonus to AC
+[[armor]]
+name = "Padded"
+armor_type = "Light"
+base_ac = 11
+weight = 8.0
+price = 5.0
+stealth_disadvantage = true
+
+[[armor]]
+name = "Leather"
+armor_type = "Light"
+base_ac = 11
+weight = 10.0
+price = 10.0
+stealth_disadvantage = false
+
+[[armor]]
+name = "Studded Leather"
+armor_type = "Light"
+base_ac = 12
+weight = 13.0
+price = 45.0
+stealth_disadvantage = false
+
+# Medium Armor - Max +2 DEX bonus to AC
+[[armor]]
+name = "Hide"
+armor_type = "Medium"
+base_ac = 12
+dex_bonus_max = 2
+weight = 12.0
+price = 10.0
+stealth_disadvantage = false
+
+[[armor]]
+name = "Chain Shirt"
+armor_type = "Medium"
+base_ac = 13
+dex_bonus_max = 2
+weight = 20.0
+price = 50.0
+stealth_disadvantage = false
+
+[[armor]]
+name = "Scale Mail"
+armor_type = "Medium"
+base_ac = 14
+dex_bonus_max = 2
+weight = 45.0
+price = 50.0
+stealth_disadvantage = true
+
+[[armor]]
+name = "Breastplate"
+armor_type = "Medium"
+base_ac = 14
+dex_bonus_max = 2
+weight = 20.0
+price = 400.0
+stealth_disadvantage = false
+
+[[armor]]
+name = "Half Plate"
+armor_type = "Medium"
+base_ac = 15
+dex_bonus_max = 2
+weight = 40.0
+price = 750.0
+stealth_disadvantage = true
+
+# Heavy Armor - No DEX bonus to AC
+[[armor]]
+name = "Ring Mail"
+armor_type = "Heavy"
+base_ac = 14
+dex_bonus_max = 0
+weight = 40.0
+price = 30.0
+stealth_disadvantage = true
+
+[[armor]]
+name = "Chain Mail"
+armor_type = "Heavy"
+base_ac = 16
+dex_bonus_max = 0
+weight = 55.0
+price = 75.0
+stealth_disadvantage = true
+
+[[armor]]
+name = "Splint"
+armor_type = "Heavy"
+base_ac = 17
+dex_bonus_max = 0
+weight = 60.0
+price = 200.0
+stealth_disadvantage = true
+
+[[armor]]
+name = "Plate"
+armor_type = "Heavy"
+base_ac = 18
+dex_bonus_max = 0
+weight = 65.0
+price = 1500.0
+stealth_disadvantage = true

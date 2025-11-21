@@ -1,0 +1,153 @@
+# Simple Melee Weapons
+[[weapon]]
+name = "Club"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d4"
+damage_type = "Bludgeoning"
+weight = 2.0
+price = 0.1
+properties = ["Light"]
+
+[[weapon]]
+name = "Dagger"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d4"
+damage_type = "Piercing"
+weight = 1.0
+price = 2.0
+properties = ["Light", "Finesse", "Thrown"]
+
+[[weapon]]
+name = "GreatClub"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d8"
+damage_type = "Bludgeoning"
+weight = 2.0
+price = 0.2
+properties = ["Two-Handed"]
+
+[[weapon]]
+name = "Handaxe"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d6"
+damage_type = "Slashing"
+weight = 2.0
+price = 0.5
+properties = ["Light", "Thrown"]
+
+[[weapon]]
+name = "Quarterstaff"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d6"
+damage_type = "Bludgeoning"
+weight = 4.0
+price = 0.2
+properties = ["Versatile"]
+
+[[weapon]]
+name = "Mace"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d6"
+damage_type = "Bludgeoning"
+weight = 4.0
+price = 5.0
+properties = []
+
+# Simple Ranged Weapons
+[[weapon]]
+name = "Shortbow"
+weapon_type = "Simple"
+weapon_range = "Ranged"
+damage = "1d6"
+damage_type = "Piercing"
+weight = 2.0
+price = 25.0
+properties = ["Ammunition", "TwoHanded"]
+
+[[weapon]]
+name = "Light Crossbow"
+weapon_type = "Simple"
+weapon_range = "Ranged"
+damage = "1d8"
+damage_type = "Piercing"
+weight = 5.0
+price = 25.0
+properties = ["Ammunition", "Loading", "TwoHanded"]
+
+# Martial Melee Weapons
+[[weapon]]
+name = "Shortsword"
+weapon_type = "Martial"
+weapon_range = "Melee"
+damage = "1d6"
+damage_type = "Piercing"
+weight = 2.0
+price = 10.0
+properties = ["Light", "Finesse"]
+
+[[weapon]]
+name = "Longsword"
+weapon_type = "Martial"
+weapon_range = "Melee"
+damage = "1d8"
+damage_type = "Slashing"
+weight = 3.0
+price = 15.0
+properties = ["Versatile"]
+
+[[weapon]]
+name = "Greatsword"
+weapon_type = "Martial"
+weapon_range = "Melee"
+damage = "2d6"
+damage_type = "Slashing"
+weight = 6.0
+price = 50.0
+properties = ["Heavy", "TwoHanded"]
+
+[[weapon]]
+name = "Greataxe"
+weapon_type = "Martial"
+weapon_range = "Melee"
+damage = "1d12"
+damage_type = "Slashing"
+weight = 7.0
+price = 30.0
+properties = ["Heavy", "TwoHanded"]
+
+[[weapon]]
+name = "Rapier"
+weapon_type = "Martial"
+weapon_range = "Melee"
+damage = "1d8"
+damage_type = "Piercing"
+weight = 2.0
+price = 25.0
+properties = ["Finesse"]
+
+# Martial Ranged Weapons
+[[weapon]]
+name = "Longbow"
+weapon_type = "Martial"
+weapon_range = "Ranged"
+damage = "1d8"
+damage_type = "Piercing"
+weight = 2.0
+price = 50.0
+properties = ["Ammunition", "Heavy", "TwoHanded"]
+
+[[weapon]]
+name = "Heavy Crossbow"
+weapon_type = "Martial"
+weapon_range = "Ranged"
+damage = "1d10"
+damage_type = "Piercing"
+weight = 18.0
+price = 50.0
+properties = ["Ammunition", "Heavy", "Loading", "TwoHanded"]
