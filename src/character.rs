@@ -1,11 +1,5 @@
 use crate::{
-    ability::{self, Abilities, AbilityScores},
-    class::Class,
-    dice::Dice,
-    equipment::{Armor, Weapon},
-    race::Race,
-    skill::Skill,
-    experience::XP_TABLE,
+    ability::{Abilities, AbilityScores}, class::Class, equipment::{self, Armor, Weapon}, experience::XP_TABLE, money::{Money, MoneyType}, race::Race, skill::Skill
 };
 use std::fmt::{self, Formatter};
 use serde::{Serialize, Deserialize};
@@ -21,9 +15,10 @@ pub struct Character {
     pub max_hp: u16,
     pub current_hp: u16,
     pub skills: Vec<Skill>,
-    // pub armor: Vec<Armor>,
+    pub armor: Vec<Armor>,
     pub weapons: Vec<Weapon>,
     pub current_load: u8,
+    pub current_money: Vec<Money>,
 }
 
 impl Character {
@@ -125,6 +120,60 @@ impl Character {
         self.show_needed_xp() - &self.current_xp
     }
 
+    fn set_class_default_armor(&mut self) {
+        let armor = match self.class{
+            Class::Barbarian => 
+                if let Some(armor) = equipment::Armor::get_armor("Studded Leather"){
+                    vec![armor]
+                } else {
+                    vec![]
+                },
+            Class::Bard => vec![],
+            Class::Cleric => vec![],
+            Class::Druid => vec![],
+            Class::Fighter => vec![],
+            Class::Monk => vec![],
+            Class::Paladin => vec![],
+            Class::Ranger => vec![],
+            Class::Rogue => vec![],
+            Class::Sorcerer => vec![],
+            Class::Warlock => vec![],
+            Class::Wizard => vec![],
+        };
+
+        self.armor = armor;
+    }
+
+    fn set_class_default_weapon(&mut self) {
+        let weapons = match self.class{
+            Class::Barbarian => 
+                if let Some(weapon) = equipment::Weapon::get_weapon("Great Club"){
+                    vec![weapon]
+                } else {
+                    vec![]
+                },
+            Class::Bard => vec![],
+            Class::Cleric => vec![],
+            Class::Druid => vec![],
+            Class::Fighter => vec![],
+            Class::Monk => vec![],
+            Class::Paladin => vec![],
+            Class::Ranger => vec![],
+            Class::Rogue => vec![],
+            Class::Sorcerer => vec![],
+            Class::Warlock => vec![],
+            Class::Wizard => vec![],
+        };
+        self.weapons = weapons;
+    }
+
+    fn set_starter_money(&mut self) {
+        //basic one before getting normally done
+        self.current_money = vec![Money {coin_type: MoneyType::Copper, amount: 10}, 
+                                    Money {coin_type: MoneyType::Silver, amount: 5}, 
+                                    Money {coin_type: MoneyType::Gold, amount: 0}];
+    }
+
     pub fn new(name: String, race: Race, class: Class) -> Self {
         let mut char = Character {
             name,
@@ -137,7 +186,9 @@ impl Character {
             current_hp: 0,
             skills: vec![],
             weapons: vec![],
+            armor: vec![],
             current_load: 0,
+            current_money:vec![],
         };
 
         char.apply_racial_bonuses();
@@ -146,6 +197,11 @@ impl Character {
         char.current_hp = char.max_hp;
 
         char.skills = char.class.get_class_skills();
+
+        char.set_class_default_armor();
+        char.set_class_default_weapon();
+
+        char.set_starter_money();
 
         char
     }
@@ -179,7 +235,7 @@ impl fmt::Display for Character {
         )?;
         writeln!(
             f,
-            "    XP  {}     🦸 {}",
+            "    XP  {}       🦸 {}",
             self.current_xp,
             self.level,
         )?;
@@ -190,8 +246,8 @@ impl fmt::Display for Character {
         writeln!(f, "{}", self.stats)?;
 
         // Skills section
-        writeln!(f, "  🎯 PROFICIENT SKILLS")?;
-        writeln!(f, "  ────────────────────")?;
+        writeln!(f, "🎯 PROFICIENT SKILLS")?;
+        writeln!(f, "────────────────────")?;
         if self.skills.is_empty() {
             writeln!(f, "    No proficient skills")?;
         } else {
@@ -203,22 +259,56 @@ impl fmt::Display for Character {
         writeln!(f, "")?;
 
         // Equipment section
-        // writeln!(f, "  ⚔️  EQUIPMENT")?;
-        // writeln!(f, "  ──────────────")?;
-        // if self.weapons.is_empty() {
-        //     writeln!(f, "    No weapons equipped")?;
-        // } else {
-        //     for weapon in &self.weapons {
-        //         writeln!(
-        //             f,
-        //             "    • {} — {} {} damage, {:.2} gp",
-        //             weapon.weapon_type,
-        //             weapon.damage,
-        //             format!("{}", weapon.damage_type).to_lowercase(),
-        //             weapon.price
-        //         )?;
-        //     }
-        // }
+        writeln!(f, "🛠️  EQUIPMENT")?;
+        writeln!(f, "──────────────")?;
+        if self.armor.is_empty() {
+            writeln!(f, "    🛡️ No armor equipped")?;
+        } else {
+            for armor in &self.armor {
+                writeln!(
+                    f,
+                    "    🛡️  {} | {} | Weight: {} lbs | {:.2} gp",
+                    armor.name,
+                    armor.armor_type,
+                    armor.weight,
+                    armor.price
+                )?;
+            }
+        }
+
+        if self.weapons.is_empty() {
+            writeln!(f, "    ⚔️  No weapon equipped")?;
+        } else {
+            for weapon in &self.weapons {
+                writeln!(
+                    f,
+                    "    ⚔️  {} | {} | Damage: {} {} | Weight: {} lbs | {:.2} gp",
+                    weapon.name,
+                    weapon.weapon_type,
+                    weapon.damage,
+                    weapon.damage_type,
+                    weapon.weight,
+                    weapon.price
+                )?;
+            }
+        }
+        writeln!(f, "")?;
+
+        // Equipment section
+        writeln!(f, "💰  Money")?;
+        writeln!(f, "──────────────")?;
+        if self.current_money.is_empty() {
+            writeln!(f, "    No money you poor bastard!")?;
+        } else {
+            for money in &self.current_money {
+                writeln!(
+                    f,
+                    "    🪙  {} : {} ",
+                    money.coin_type,
+                    money.amount,
+                )?;
+            }
+        }
         writeln!(f, "")?;
 
         Ok(())

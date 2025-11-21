@@ -61,7 +61,6 @@ pub struct AbilityScores{
 }
 
 impl AbilityScores{
-    //generate abilities (not quite DnD 5e rules: there you should use 4 Dice and take the 3 max value and sum up)
     pub fn new() -> Self{
         Self { strength: Dice::roll_for_ability(), 
                 dexterity: Dice::roll_for_ability(), 

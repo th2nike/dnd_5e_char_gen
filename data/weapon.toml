@@ -20,7 +20,7 @@ price = 2.0
 properties = ["Light", "Finesse", "Thrown"]
 
 [[weapon]]
-name = "GreatClub"
+name = "Great Club"
 weapon_type = "Simple"
 weapon_range = "Melee"
 damage = "1d8"
@@ -37,6 +37,26 @@ damage = "1d6"
 damage_type = "Slashing"
 weight = 2.0
 price = 0.5
+properties = ["Light", "Thrown"]
+
+[[weapon]]
+name = "Javelin"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d6"
+damage_type = "Piercing"
+weight = 2.0
+price = 0.5
+properties = ["Thrown"]
+
+[[weapon]]
+name = "LightHammer"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d4"
+damage_type = "Bludgeoning"
+weight = 2.0
+price = 2.0
 properties = ["Light", "Thrown"]
 
 [[weapon]]
@@ -58,6 +78,26 @@ damage_type = "Bludgeoning"
 weight = 4.0
 price = 5.0
 properties = []
+
+[[weapon]]
+name = "Sickle"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d4"
+damage_type = "Slashing"
+weight = 2.0
+price = 1.0
+properties = ["Light"]
+
+[[weapon]]
+name = "Spear"
+weapon_type = "Simple"
+weapon_range = "Melee"
+damage = "1d6"
+damage_type = "Piercing"
+weight = 3.0
+price = 1.0
+properties = ["Thrown", "Versatile"]
 
 # Simple Ranged Weapons
 [[weapon]]

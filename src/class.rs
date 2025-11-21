@@ -22,17 +22,17 @@ impl Class {
 
     pub fn get_class_armor_proficiency(&self) -> Vec<ArmorType>{
         match self{
-            Class::Barbarian => {vec![ArmorType::LightArmor, ArmorType::MediumArmor]},
-            Class::Bard => {vec![ArmorType::LightArmor]},
-            Class::Cleric => {vec![ArmorType::LightArmor, ArmorType::MediumArmor]},
-            Class::Druid => {vec![ArmorType::LightArmor, ArmorType::MediumArmor]},
-            Class::Fighter => {vec![ArmorType::LightArmor, ArmorType::MediumArmor, ArmorType::HeavyArmor]},
+            Class::Barbarian => {vec![ArmorType::Light, ArmorType::Medium]},
+            Class::Bard => {vec![ArmorType::Light]},
+            Class::Cleric => {vec![ArmorType::Light, ArmorType::Medium]},
+            Class::Druid => {vec![ArmorType::Light, ArmorType::Medium]},
+            Class::Fighter => {vec![ArmorType::Light, ArmorType::Medium, ArmorType::Heavy]},
             Class::Monk => {vec![]},
-            Class::Paladin => {vec![ArmorType::LightArmor, ArmorType::MediumArmor, ArmorType::HeavyArmor]},
-            Class::Ranger => {vec![ArmorType::LightArmor, ArmorType::MediumArmor]},
-            Class::Rogue => {vec![ArmorType::LightArmor]},
+            Class::Paladin => {vec![ArmorType::Light, ArmorType::Medium, ArmorType::Heavy]},
+            Class::Ranger => {vec![ArmorType::Light, ArmorType::Medium]},
+            Class::Rogue => {vec![ArmorType::Light]},
             Class::Sorcerer => {vec![]},
-            Class::Warlock => {vec![ArmorType::LightArmor]},
+            Class::Warlock => {vec![ArmorType::Light]},
             Class::Wizard => {vec![]},
         }
     }
