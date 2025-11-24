@@ -30,6 +30,7 @@ pub enum Skill {
 }
 
 impl Skill {
+    #[allow(dead_code)]
     pub fn ability_type(&self) -> &str {
         match self {
             Skill::Athletics => "STR",

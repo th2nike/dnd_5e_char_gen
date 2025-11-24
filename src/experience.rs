@@ -1,6 +1,7 @@
 /// Experience points required to reach each level (index = level)
 /// Level 0 requires 0 XP, Level 1 requires 0 XP (starting level),
 /// Level 2 requires 300 XP, etc.
+#[allow(dead_code)]
 pub const XP_TABLE: [u32; 21] = [
     0,       // Level 0 (shouldn't normally be used, but makes indexing clean)
     0,       // Level 1

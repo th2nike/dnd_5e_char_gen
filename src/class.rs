@@ -23,6 +23,7 @@ pub enum Class {
 }
 
 impl Class {
+    #[allow(dead_code)]
     pub fn get_class_armor_proficiency(&self) -> Vec<ArmorType> {
         match self {
             Class::Barbarian => {
@@ -64,6 +65,7 @@ impl Class {
         }
     }
 
+    #[allow(dead_code)]
     pub fn get_weapon_proficieny(&self) -> Vec<WeaponType> {
         match self {
             //for some classes the granularity of weapon proficiency is much detailed, but ...
@@ -125,6 +127,7 @@ impl Class {
         }
     }
 
+    #[allow(dead_code)]
     pub fn get_class_hit_dice(&self) -> Dice {
         match self {
             Class::Barbarian => Dice::new(1, 12, 0),

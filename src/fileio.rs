@@ -21,6 +21,7 @@ pub fn generate_filename(race: &Race, class: &Class) -> String {
     format!("characters/{:?}_{:?}_{}.json", race, class, timestamp)
 }
 
+#[allow(dead_code)]
 pub fn list_character_files() -> Result<Vec<String>, io::Error> {
     ensure_characters_directory()?;
 

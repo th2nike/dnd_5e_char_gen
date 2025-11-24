@@ -129,6 +129,7 @@ impl Character {
         }
     }
 
+    #[allow(dead_code)]
     // get next level xp cap based on current xp
     pub fn show_needed_xp(&self) -> u32 {
         XP_TABLE
@@ -138,6 +139,7 @@ impl Character {
             .unwrap_or(355_000)
     }
 
+    #[allow(dead_code)]
     pub fn calculate_current_level(&self) -> u8 {
         XP_TABLE
             .iter()
@@ -146,6 +148,7 @@ impl Character {
             .unwrap_or(20)  // Max level is 20
     }
 
+    #[allow(dead_code)]
     //get xp needed to level up
     pub fn xp_needed_for_level_up(&self) -> u32 {
         self.show_needed_xp() - &self.current_xp
@@ -235,15 +238,15 @@ impl Character {
 
     fn calculate_encumberance(&self) -> (Encumberance, f32) {
         let current_load: f32 = self.calculate_weight();
-        if ((current_load > self.stats.get(Abilities::Strength) as f32 * 5.0)
-            && (current_load < self.stats.get(Abilities::Strength) as f32 * 10.0))
+        if (current_load > self.stats.get(Abilities::Strength) as f32 * 5.0)
+            && (current_load < self.stats.get(Abilities::Strength) as f32 * 10.0)
         {
             (Encumberance::Encumbered, current_load)
-        } else if ((current_load > self.stats.get(Abilities::Strength) as f32 * 10.0)
-            && (current_load < self.stats.get(Abilities::Strength) as f32 * 15.0))
+        } else if (current_load > self.stats.get(Abilities::Strength) as f32 * 10.0)
+            && (current_load < self.stats.get(Abilities::Strength) as f32 * 15.0)
         {
             (Encumberance::HeavilyEncumbered, current_load)
-        } else if (current_load > self.stats.get(Abilities::Strength) as f32 * 15.0) {
+        } else if current_load > self.stats.get(Abilities::Strength) as f32 * 15.0 {
             (Encumberance::OverCapacity, current_load)
         } else {
             (Encumberance::Normal, current_load)
@@ -379,7 +382,7 @@ impl fmt::Display for Character {
         if self.current_money.is_empty() {
             writeln!(f, "No money you poor bastard!")?;
         } else {
-            write!(f, "🪙 ");
+            write!(f, "🪙 ")?;
             for money in &self.current_money {
                 write!(f, " {} : {} ", money.coin_type, money.amount,)?;
             }

@@ -39,6 +39,7 @@ impl Dice {
         rolls[1..].iter().sum()
     }
 
+    #[allow(dead_code)]
     pub fn parse_dice_roll(dice_roll: String) -> u8 {
         let dice_roll = dice_roll.to_lowercase();
         let mut modifier: i8 = 0;
@@ -68,6 +69,7 @@ impl Dice {
         Dice::new(dice_count, dice_sides, modifier).roll()
     }
 
+    #[allow(dead_code)]
     //not mine - just wanted to see how it can be done uisng regexes.
     pub fn parse_dice_roll_with_regex(input: &str) {
         let re = Regex::new(r"^(\d*)d(\d+)(?:([+-])(\d+))?$").unwrap();
