@@ -10,6 +10,7 @@ pub fn ensure_characters_directory() -> Result<(), io::Error> {
     Ok(())
 }
 
+#[allow(dead_code)]
 pub fn generate_filename(race: &Race, class: &Class) -> String {
     use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -42,6 +43,7 @@ pub fn list_character_files() -> Result<Vec<String>, io::Error> {
     Ok(files)
 }
 
+#[allow(dead_code)]
 pub fn save_character_auto(character: &Character) -> Result<String, io::Error> {
     ensure_characters_directory()?;
 

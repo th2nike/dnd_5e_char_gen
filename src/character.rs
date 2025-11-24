@@ -36,8 +36,6 @@ pub enum Encumberance {
     OverCapacity,
 }
 
-
-
 impl Character {
     pub fn apply_racial_bonuses(&mut self) {
         match self.race {
@@ -145,7 +143,7 @@ impl Character {
             .iter()
             .position(|x| *x > self.current_xp)
             .map(|pos| pos as u8 - 1)
-            .unwrap_or(20)  // Max level is 20
+            .unwrap_or(20) // Max level is 20
     }
 
     #[allow(dead_code)]
@@ -164,23 +162,71 @@ impl Character {
     fn set_class_default_armor(&mut self) {
         let armor = match self.class {
             Class::Barbarian => {
-                if let Some(armor) = equipment::Armor::get_armor("Studded Leather") {
-                    vec![armor]
-                } else {
-                    vec![]
-                }
+                // Barbarians typically start unarmored or light armor
+                equipment::Armor::get_armor("Hide")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
             }
-            Class::Bard => vec![],
-            Class::Cleric => vec![],
-            Class::Druid => vec![],
-            Class::Fighter => vec![],
-            Class::Monk => vec![],
-            Class::Paladin => vec![],
-            Class::Ranger => vec![],
-            Class::Rogue => vec![],
-            Class::Sorcerer => vec![],
-            Class::Warlock => vec![],
-            Class::Wizard => vec![],
+            Class::Bard => {
+                // Bards get leather armor
+                equipment::Armor::get_armor("Leather")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Cleric => {
+                // Clerics get scale mail or chain shirt
+                equipment::Armor::get_armor("Chain Mail")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Druid => {
+                // Druids get leather armor (no metal)
+                equipment::Armor::get_armor("Leather")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Fighter => {
+                // Fighters get chain mail or leather
+                equipment::Armor::get_armor("Chain Mail")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Monk => {
+                // Monks don't wear armor (unarmored defense)
+                vec![]
+            }
+            Class::Paladin => {
+                // Paladins get chain mail
+                equipment::Armor::get_armor("Chain Mail")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Ranger => {
+                // Rangers get scale mail or leather
+                equipment::Armor::get_armor("Scale Mail")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Rogue => {
+                // Rogues get leather armor
+                equipment::Armor::get_armor("Leather")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Sorcerer => {
+                // Sorcerers don't get armor proficiency
+                vec![]
+            }
+            Class::Warlock => {
+                // Warlocks get leather armor
+                equipment::Armor::get_armor("Leather")
+                    .map(|a| vec![a])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Wizard => {
+                // Wizards don't get armor proficiency
+                vec![]
+            }
         };
 
         self.armor = armor;
@@ -189,24 +235,81 @@ impl Character {
     fn set_class_default_weapon(&mut self) {
         let weapons = match self.class {
             Class::Barbarian => {
-                if let Some(weapon) = equipment::Weapon::get_weapon("Great Club") {
-                    vec![weapon]
+                // Barbarians get greataxe or martial melee weapon
+                equipment::Weapon::get_weapon("Greataxe")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Bard => {
+                // Bards get rapier or longsword or simple weapon
+                equipment::Weapon::get_weapon("Rapier")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Cleric => {
+                // Clerics get mace or warhammer (simple weapons)
+                equipment::Weapon::get_weapon("Mace")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Druid => {
+                // Druids get club, dagger, quarterstaff, etc.
+                equipment::Weapon::get_weapon("Quarterstaff")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Fighter => {
+                // Fighters get martial weapons - longsword and shield, or greatsword
+                equipment::Weapon::get_weapon("Longsword")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Monk => {
+                // Monks get shortsword or simple weapon
+                equipment::Weapon::get_weapon("Shortsword")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Paladin => {
+                // Paladins get martial weapons
+                equipment::Weapon::get_weapon("Longsword")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Ranger => {
+                // Rangers get two shortswords or two simple melee
+                if let Some(weapon) = equipment::Weapon::get_weapon("Shortsword") {
+                    vec![weapon.clone(), weapon]  // Two shortswords
                 } else {
                     vec![]
                 }
             }
-            Class::Bard => vec![],
-            Class::Cleric => vec![],
-            Class::Druid => vec![],
-            Class::Fighter => vec![],
-            Class::Monk => vec![],
-            Class::Paladin => vec![],
-            Class::Ranger => vec![],
-            Class::Rogue => vec![],
-            Class::Sorcerer => vec![],
-            Class::Warlock => vec![],
-            Class::Wizard => vec![],
+            Class::Rogue => {
+                // Rogues get rapier or shortsword
+                equipment::Weapon::get_weapon("Rapier")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Sorcerer => {
+                // Sorcerers get light crossbow or simple weapon
+                equipment::Weapon::get_weapon("Light Crossbow")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Warlock => {
+                // Warlocks get light crossbow or simple weapon
+                equipment::Weapon::get_weapon("Light Crossbow")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
+            Class::Wizard => {
+                // Wizards get quarterstaff or dagger
+                equipment::Weapon::get_weapon("Quarterstaff")
+                    .map(|w| vec![w])
+                    .unwrap_or_else(Vec::new)
+            }
         };
+        
         self.weapons = weapons;
     }
 
@@ -359,7 +462,7 @@ impl fmt::Display for Character {
             writeln!(f, "🛡️ No armor equipped")?;
         } else {
             for armor in &self.armor {
-                writeln!(f, "🛡️  {} | {}", armor.name, armor.armor_type)?;
+                writeln!(f, "🛡️  |{:<10} | {:^10} | {:<+4}", armor.name, armor.armor_type, armor.base_ac)?;
             }
         }
 
@@ -369,7 +472,7 @@ impl fmt::Display for Character {
             for weapon in &self.weapons {
                 writeln!(
                     f,
-                    "⚔️  {} | {} | Damage: {} {}",
+                    "⚔️  |{:<10} | {:^10} | {:<4} | {}",
                     weapon.name, weapon.weapon_type, weapon.damage, weapon.damage_type,
                 )?;
             }
@@ -384,7 +487,7 @@ impl fmt::Display for Character {
         } else {
             write!(f, "🪙 ")?;
             for money in &self.current_money {
-                write!(f, " {} : {} ", money.coin_type, money.amount,)?;
+                write!(f, " {} : {} |", money.coin_type, money.amount,)?;
             }
         }
 

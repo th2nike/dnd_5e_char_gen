@@ -10,20 +10,20 @@ mod race;
 mod skill;
 
 use crate::{character::Character, class::Class, race::Race};
-use std::{io};
+use std::io;
 
 fn main() -> Result<(), io::Error> {
     println!("=== D&D Character Generator ===\n");
 
     // Create a few characters
     let barb = Character::new("Anja".to_string(), Race::Elf, Class::Barbarian);
-    // let fighter = Character::new("Thor".to_string(), Race::Dwarf, Class::Fighter);
-    // let rogue = Character::new("Glog".to_string(), Race::HalfElf, Class::Rogue);
+    let fighter = Character::new("Thor".to_string(), Race::Dwarf, Class::Fighter);
+    let rogue = Character::new("Glog".to_string(), Race::HalfElf, Class::Rogue);
 
     // Save them all
-    println!("Saving characters...");
-    let barb_file = fileio::save_character_auto(&barb)?;
-    println!("  Barb saved to: {}", barb_file);
+    // println!("Saving characters...");
+    // let barb_file = fileio::save_character_auto(&barb)?;
+    // println!("  Barb saved to: {}", barb_file);
 
     // let fighter_file = fileio::save_character_auto(&fighter)?;
     // println!("  Fighter saved to: {}", fighter_file);
@@ -39,6 +39,8 @@ fn main() -> Result<(), io::Error> {
     // }
 
     println!("{}", barb);
+    println!("{}", fighter);
+    println!("{}", rogue);
     // println!("{:?}", barb);
     // println!("{}", fighter);
     // println!("{}", rogue);
@@ -53,7 +55,7 @@ fn main() -> Result<(), io::Error> {
     //     println!("{:?}", weapon);
     // }
 
-    println!("{}", barb.weapons[0]);
+    // println!("{}", barb.weapons[0]);
 
     Ok(())
 }
