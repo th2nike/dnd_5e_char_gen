@@ -114,37 +114,37 @@ impl fmt::Display for AbilityScores {
             "💪 STR: {:>3} | ({:+2})",
             self.get(Abilities::Strength),
             self.get_ability_modifier(Abilities::Strength)
-        );
+        )?;
         writeln!(
             f,
             "🏃 DEX: {:>3} | ({:+2})",
             self.get(Abilities::Dexterity),
             self.get_ability_modifier(Abilities::Dexterity)
-        );
+        )?;
         writeln!(
             f,
             "❤️  CON: {:>3} | ({:+2})",
             self.get(Abilities::Constitution),
             self.get_ability_modifier(Abilities::Constitution)
-        );
+        )?;
         writeln!(
             f,
             "🧠 INT: {:>3} | ({:+2})",
             self.get(Abilities::Intelligence),
             self.get_ability_modifier(Abilities::Intelligence)
-        );
+        )?;
         writeln!(
             f,
             "🦉 WIS: {:>3} | ({:+2})",
             self.get(Abilities::Wisdom),
             self.get_ability_modifier(Abilities::Wisdom)
-        );
+        )?;
         writeln!(
             f,
             "✨ CHA: {:>3} | ({:+2})",
             self.get(Abilities::Charisma),
             self.get_ability_modifier(Abilities::Charisma)
-        );
+        )?;
         writeln!(f, "")
     }
 }

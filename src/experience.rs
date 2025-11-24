@@ -1,5 +1,3 @@
-use crate::character::Character;
-
 /// Experience points required to reach each level (index = level)
 /// Level 0 requires 0 XP, Level 1 requires 0 XP (starting level),
 /// Level 2 requires 300 XP, etc.

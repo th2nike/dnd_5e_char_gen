@@ -140,7 +140,7 @@ impl Weapon {
 
 impl fmt::Display for Weapon {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        writeln!(f, "────────────────────");
+        writeln!(f, "────────────────────")?;
         write!(f, "Weapon: {}", self.name)
     }
 }
