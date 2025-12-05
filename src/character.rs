@@ -279,7 +279,7 @@ impl Character {
             Class::Ranger => {
                 // Rangers get two shortswords or two simple melee
                 if let Some(weapon) = equipment::Weapon::get_weapon("Shortsword") {
-                    vec![weapon.clone(), weapon]  // Two shortswords
+                    vec![weapon.clone(), weapon] // Two shortswords
                 } else {
                     vec![]
                 }
@@ -309,7 +309,7 @@ impl Character {
                     .unwrap_or_else(Vec::new)
             }
         };
-        
+
         self.weapons = weapons;
     }
 
@@ -462,7 +462,11 @@ impl fmt::Display for Character {
             writeln!(f, "🛡️ No armor equipped")?;
         } else {
             for armor in &self.armor {
-                writeln!(f, "🛡️  |{:<10} | {:^10} | {:<+4}", armor.name, armor.armor_type, armor.base_ac)?;
+                writeln!(
+                    f,
+                    "🛡️  |{:<10} | {:^10} | {:<+4}",
+                    armor.name, armor.armor_type, armor.base_ac
+                )?;
             }
         }
 
