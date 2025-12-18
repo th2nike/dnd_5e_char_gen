@@ -25,3 +25,5 @@ pub struct Money {
     pub coin_type: MoneyType,
     pub amount: u32,
 }
+
+//TODO: add money converter between types: 100cp = 1sp, 100sp = 1gp
